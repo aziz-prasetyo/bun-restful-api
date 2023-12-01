@@ -1,6 +1,15 @@
 import {Elysia} from "elysia";
 
 const app = new Elysia()
+  .state({
+    version: "1.0.0",
+    employees: 1,
+    user: {
+      id: 1,
+      email: "johndoe@example.com"
+    }
+  })
+  .decorate("getDate", () => Date.now())
   .get("/", () => "Hello, Bun Developer! I am gonna build RESTful APIs 😎")
   .get("/posts/:id", ({ params: { id } }) => {
     return {
@@ -8,7 +17,7 @@ const app = new Elysia()
       title: "Something cool about Bun!"
     }
   })
-  .get("/tracks", () => {
+  .get("/tracks", ({ store, getDate }) => {
     // return new Response(JSON.stringify({
     //   "tracks": [
     //     "Monkey Dancing",
@@ -21,6 +30,9 @@ const app = new Elysia()
     //   }
     // })
     // samething like here:
+    console.log(store)
+    console.log(getDate())
+
     return {
       "tracks": [
         "Monkey Dancing",
@@ -31,7 +43,8 @@ const app = new Elysia()
     }
   })
   .get("/tracks/*", () => "This is track route!")
-  .post("/posts", ({ body, set }) => {
+  .post("/posts", ({ body, set, store }) => {
+    console.log(store)
     set.status = 201
 
     return body
