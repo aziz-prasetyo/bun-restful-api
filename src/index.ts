@@ -1,6 +1,11 @@
 import {Elysia} from "elysia";
 
+// import plugin from separate file
+import {plugin} from './plugin'
+
+// application
 const app = new Elysia()
+  .use(plugin)
   .state({
     version: "1.0.0",
     employees: 1,
@@ -32,6 +37,7 @@ const app = new Elysia()
     // samething like here:
     console.log(store)
     console.log(getDate())
+    console.log(store.country)
 
     return {
       "tracks": [
